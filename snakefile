@@ -25,7 +25,7 @@ rule biallelic:
      params:
         a1 = "../Binary/{dataset}",
         a2 = "QC_binary_temp/{dataset}_biallelic"
-     conda: "../envs/plink.yaml"
+     conda: "./envs/plink.yaml"
      shell: 
           """
           plink --bfile {params.a1} --snps-only just-acgt --make-bed --out {params.a2}
@@ -40,7 +40,7 @@ rule QC_report:
      params:
           a2 = "QC_binary_temp/{dataset}_biallelic",
           a3 = "QC_reports/{dataset}_QC_reports"
-     conda: "../envs/plink.yaml"
+     conda: "./envs/plink.yaml"
      shell:
           """
           plink --bfile {params.a2} --freq --missing --hardy --het --out {params.a3} 
@@ -69,7 +69,7 @@ rule geno:
           a2 = "QC_binary_temp/{dataset}_biallelic",
           a4 = "QC_binary_temp/{dataset}_QCedSNP",
           geno = config["geno"]
-     conda: "../envs/plink.yaml"
+     conda: "./envs/plink.yaml"
      shell:
           """
           plink --bfile {params.a2} --geno {params.geno} --make-bed --out {params.a4}
@@ -88,7 +88,7 @@ rule QC:
           maf = config["maf"],
           mind = config["mind"],
           hwe = config["hwe"]
-     conda: "../envs/plink.yaml"
+     conda: "./envs/plink.yaml"
      shell:
           """
           plink --bfile {params.a2} --mind {params.mind} --maf {params.maf} --hwe {params.hwe} --make-bed --out {params.a4}
@@ -108,7 +108,7 @@ rule prune:
     params:
         a4 = "QC_binary_temp/{dataset}_QCed",
         a5 = "lists/{dataset}_QCed"
-    conda: "../envs/plink.yaml"
+    conda: "./envs/plink.yaml"
     shell:
         """
         plink \
@@ -125,7 +125,7 @@ rule heterozygosity:
      params:
         a4 = "QC_binary_temp/{dataset}_QCed",
         a6 = "QC_reports/{dataset}_QC_reports_pruned"
-     conda: "../envs/plink.yaml"
+     conda: "./envs/plink.yaml"
      shell:
         """
         plink \
@@ -154,7 +154,7 @@ rule sexcheck:
      params:
           a9 = "QC_binary_temp/{dataset}_QCed",
           a7 = "lists/{dataset}_QCed"
-     conda: "../envs/plink.yaml"        
+     conda: "./envs/plink.yaml"        
      shell:
         """
        plink \
@@ -187,7 +187,7 @@ rule remove_chr:
      params:
           a9 = "QC_binary_temp/{dataset}_QCed",
           a10 = "QC_binary_temp/{dataset}_QCed_noXY"
-     conda: "../envs/plink.yaml"
+     conda: "./envs/plink.yaml"
      shell:
           """
           plink  \
@@ -212,7 +212,7 @@ rule ibd:
           a10 = "QC_binary_temp/{dataset}_QCed_noXY",
           a11 = "lists/{dataset}_ibd_calculation",
           pihat = config["pihat"]
-     conda: "../envs/plink.yaml"
+     conda: "./envs/plink.yaml"
      shell:
           """
           plink --bfile {params.a10} --extract {input.prune_in} --genome --min {params.pihat} --out {params.a11}
@@ -237,7 +237,7 @@ rule remove_related:
      params:
           a10 = "QC_binary_temp/{dataset}_QCed_noXY",
           a12 = "Binary_final/{dataset}_QCed_final"
-     conda: "../envs/plink.yaml"
+     conda: "./envs/plink.yaml"
      shell:
           """
           plink --bfile {params.a10} --remove {input.rel_list} --make-bed --out {params.a12}
@@ -253,7 +253,7 @@ rule pca:
           a12 = "Binary_final/{dataset}_QCed_final",
           a13 = "PCA/{dataset}_pca",
           pca = config["pca"]
-     conda: "../envs/plink.yaml"
+     conda: "./envs/plink.yaml"
      shell:
           "plink --bfile {params.a12} --pca {params.pca} header --out {params.a13}"
 
