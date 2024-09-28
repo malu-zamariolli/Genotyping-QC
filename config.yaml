@@ -1,0 +1,11 @@
+# Subject and variant level QC thresholds
+maf: 0.05
+geno: 0.01
+mind: 0.01
+hwe: 0.000001
+# Genome build for splitsex rule
+genome_build: 'b37'
+# Number of PCs to be generated
+pca: 60
+# Pi-hat threshold for IBD 
+pihat: 0.125
